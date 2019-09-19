@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+
+{% block content %}
+    {% block content_header %}
+    <h2>Apuntes de Clase</h2>
+    <p>
+        <!--a href="{% url 'upload_book' %}" class="btn btn-primary mb-4">Subir Apuntes</a-->
+    </p> 
+    {% endblock %}
+
+    <table class="table table-bordered table-list">
+        <thead class="table-primary">
+            <tr>
+                <th>Clase</th>
+                <th>Tema</th>
+                <th>Objetivo</th>
+                <th>Descargar</th>
+                <th>Eliminar</th>
+            </tr>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.clase }}</td>
+                        <td>{{ book.tema }}</td>
+                        <td>{{ book.objetivo }}</td>
+                        <td style="width: 100px">
+                            <a href="{{ book.archivo.url }}" class="btn btn-success btn-sm" target="_blank">
+                                Descargar
+                            </a>
+                        </td>
+                        <td style="width: 90px">
+                            <form method = 'POST' action="{% url 'delete_book' book.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </thead>
+    </table>
+{% endblock %}
